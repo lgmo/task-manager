@@ -14,6 +14,12 @@ services:
       context: .
       dockerfile: dev.Dockerfile
     platform: linux/amd64
+    volumes:
+      - ./src:/backend/src
+      - ./.python-version:/backend/.pythonv-version
+      - ./Makefile:/backend/Makefile
+      - ./pyproject.toml:/backend/pyproject.toml
+      - ./uv.lock:/backend/uv.lock
     env_file: .env
     depends_on:
       - db
