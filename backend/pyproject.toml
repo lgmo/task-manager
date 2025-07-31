@@ -1,0 +1,103 @@
+[project]
+name = "task_manager_backend"
+version = "0.1.0"
+description = "Backend of the task-manager app."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.2.4",
+    "django-rest-framework>=0.1.0",
+    "drf-spectacular>=0.28.0",
+]
+
+[dependency-groups]
+dev = [
+    "django-types>=0.22.0",
+    "djangorestframework-types>=0.9.0",
+    "pyright>=1.1.403",
+    "pytest>=8.4.1",
+    "ruff>=0.12.7",
+]
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+line-length = 79
+target-version = "py313"
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    # Erros básicos (não tem como fugir)
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    
+    # Estilo que vale a pena
+    "I",   # isort (imports organizados)
+    "Q",   # quotes (aspas consistentes)
+    
+    # Boas práticas
+    "B",   # bugbear (anti-padrões)
+    "A",   # flake8-builtins (nomes conflitantes)
+    "COM", # commas (vírgulas consistentes)
+    "DTZ", # datetime.timezone (segurança em timezones)
+    
+    # Django específico
+    "DJ",  # django-flake8
+    
+    # Performance
+    "PERF", # perflint
+    
+    # Complexidade moderada
+    "C901", # complexidade ciclomática > 10
+    
+    # Regex problemático
+    "S",    # flake8-bandit (security)
+    
+    # Type hints (se usar)
+    "TCH",  # type-checking imports
+    "ANN",  # annotations
+]
+fixable = ["ALL"]
+ignore = ["COM812"]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+exclude = ["**/migrations/**", "**/node_modules/**", "**/.venv/**", "src/manage.py", "src/core/settings.py"]
+
+[tool.ruff.format]
+quote-style = "double"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+exclude = ["**/migrations/**", "**/node_modules/**", "src/manage.py", "**/.venv/**"]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportMissingImports = true
+reportMissingTypeStubs = false
+exclude = ["**/migrations/**", "**/.venv/**", "**/node_modules/**", "src/manage.py"]
+include = ["**/*.py"]
