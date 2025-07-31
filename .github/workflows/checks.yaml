@@ -1,9 +1,12 @@
 name: Lint, Type Checking and Tets
 
-on: push
+on: 
+  push:
+    branches: ["main", "develop"]
+  pull_request:
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
