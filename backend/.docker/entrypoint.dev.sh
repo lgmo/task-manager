@@ -1,3 +1,4 @@
+#!/bin/bash
 uv sync --all-extras --dev
 
 uv run src/manage.py makemigrations
