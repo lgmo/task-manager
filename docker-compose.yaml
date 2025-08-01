@@ -26,6 +26,19 @@ services:
       - "8000:8000"
     entrypoint: [".docker/entrypoint.dev.sh"]
 
+  frontend:
+    container_name: task_manager_frontend
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    env_file: frontend/.env
+    networks:
+      - app_network
+    ports:
+      - "3001:3000"
+    command: yarn serve
+
 networks:
   app_network:
     driver: bridge
