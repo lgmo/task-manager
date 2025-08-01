@@ -6,16 +6,21 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.2.4",
+    "django-extensions>=4.1",
     "django-rest-framework>=0.1.0",
     "drf-spectacular>=0.28.0",
+    "mysqlclient>=2.2.7",
 ]
 
 [dependency-groups]
 dev = [
+    "django-stubs-ext>=5.2.2",
     "django-types>=0.22.0",
     "djangorestframework-types>=0.9.0",
     "pyright>=1.1.403",
     "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "pytest-django>=4.11.1",
     "ruff>=0.12.7",
 ]
 
@@ -95,9 +100,18 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 exclude = ["**/migrations/**", "**/node_modules/**", "src/manage.py", "**/.venv/**"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+
 [tool.pyright]
 typeCheckingMode = "strict"
 reportMissingImports = true
 reportMissingTypeStubs = false
 exclude = ["**/migrations/**", "**/.venv/**", "**/node_modules/**", "src/manage.py"]
-include = ["**/*.py"]
+include = ["tests", "src"]
+extraPaths = ["src"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_files = "**/test_*.py"
+pythonpath = "src/"

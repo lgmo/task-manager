@@ -4,25 +4,31 @@ services:
     image: mysql:8.4
     platform: linux/amd64
     env_file: .env
-    environment:
-      MYSQL_DATABASE: task_manager
-      MYSQL_USER: mysql
-      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
   backend:
     container_name: task_manager_backend
     build:
       context: .
       dockerfile: dev.Dockerfile
     platform: linux/amd64
-    volumes:
-      - ./src:/backend/src
-      - ./.python-version:/backend/.pythonv-version
-      - ./Makefile:/backend/Makefile
-      - ./pyproject.toml:/backend/pyproject.toml
-      - ./uv.lock:/backend/uv.lock
+    
     env_file: .env
+    networks:
+      - app_network
     depends_on:
       - db
     ports:
       - "8000:8000"
     entrypoint: [".docker/entrypoint.dev.sh"]
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mysql_data:

@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     default-libmysqlclient-dev \
     gcc \
+    pkg-config \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /backend

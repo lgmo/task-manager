@@ -209,3 +209,6 @@ __marimo__/
 
 # Pyright personal config
 pyrightconfig.json
+
+# Coverage
+.coverage

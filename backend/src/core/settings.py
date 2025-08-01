@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
+import django_stubs_ext
+
+django_stubs_ext.monkeypatch()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,8 +40,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
     "rest_framework",
     "drf_spectacular",
+    "tasks",
 ]
 
 MIDDLEWARE = [
@@ -52,7 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
-TEMPLATES = [ # pyright: ignore[reportUnknownVariableType]
+TEMPLATES = [  # pyright: ignore[reportUnknownVariableType]
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
@@ -80,8 +86,19 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.environ.get("MYSQL_DATABASE", "task_manager"),
+        "USER": os.environ.get("MYSQL_USER", "mysql"),
+        "HOST": os.environ.get("MYSQL_HOST", "db"),
+        "PORT": os.environ.get("MYSQL_PORT", "3306"),
+        "PASSWORD": os.environ.get("MYSQL_ROOT_PASSWORD", "root"),
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            "auth_plugin": "mysql_native_password",  # Para MySQL 8+
+        },
+        "TEST": {
+            "NAME": "task_manager",
+        },
     },
 }
 
