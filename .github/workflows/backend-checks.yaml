@@ -2,12 +2,13 @@ name: Lint, Type Checking and Tests for Backend
 
 on:
   push:
-    branches:
-      - "**"
     paths:
       - "backend/**"
       - ".github/workflows/backend-checks.yaml"
   pull_request:
+      paths:
+        - "backend/**"
+        - ".github/workflows/backend-checks.yaml"
 
 jobs:
   checks:
