@@ -8,10 +8,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+<<<<<<< Updated upstream
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Task: typeof import('./components/Task.vue')['default']
     TaskManager: typeof import('./components/TaskManager.vue')['default']
+=======
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    TasksList: typeof import('./components/TasksList.vue')['default']
+>>>>>>> Stashed changes
   }
 }

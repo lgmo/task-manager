@@ -1,13 +1,25 @@
+<<<<<<< Updated upstream
 // Plugins
 import Components from 'unplugin-vue-components/vite'
 import Vue from '@vitejs/plugin-vue'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import Fonts from 'unplugin-fonts/vite'
+=======
+import { fileURLToPath, URL } from 'node:url'
+import Vue from '@vitejs/plugin-vue'
+import Fonts from 'unplugin-fonts/vite'
+// Plugins
+import Components from 'unplugin-vue-components/vite'
+>>>>>>> Stashed changes
 import VueRouter from 'unplugin-vue-router/vite'
 
 // Utilities
 import { defineConfig } from 'vite'
+<<<<<<< Updated upstream
 import { fileURLToPath, URL } from 'node:url'
+=======
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+>>>>>>> Stashed changes
 
 // https://vitejs.dev/config/
 export default defineConfig({
