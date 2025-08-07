@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /**
  * router/index.ts
  *
@@ -31,23 +30,6 @@ router.onError((err, to) => {
 
 router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload')
-=======
-import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from 'vue-router/auto-routes'
-
-// const customRoutes = [
-//   {
-//     path: '/tasks',
-//     name: 'Tasks',
-//     component: TasksList,
-//   },
-// ]
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-  // customRoutes,
->>>>>>> Stashed changes
 })
 
 export default router
