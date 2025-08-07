@@ -1,19 +1,10 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-<<<<<<< Updated upstream
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-=======
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "./typed-router.d.ts"],
->>>>>>> Stashed changes
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-<<<<<<< Updated upstream
-=======
-    "types": ["unplugin-vue-router/client"],
-    "moduleResolution": "Bundler",
->>>>>>> Stashed changes
 
     "baseUrl": ".",
     "paths": {

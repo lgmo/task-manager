@@ -1,20 +1,8 @@
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-include:
-  - backend/docker-compose.yaml
-=======
->>>>>>> Stashed changes
 services:
   db:
     container_name: task_manager_backend_db
     image: mysql:8.4
     platform: linux/amd64
-<<<<<<< Updated upstream
-=======
-    environment:
-      MYSQL_NATIVE_PASSWORD: true
->>>>>>> Stashed changes
     env_file: backend/.env
     networks:
       - app_network
@@ -28,10 +16,7 @@ services:
       context: ./backend
       dockerfile: dev.Dockerfile
     platform: linux/amd64
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     env_file: backend/.env
     networks:
       - app_network
@@ -40,7 +25,6 @@ services:
     ports:
       - "8000:8000"
     entrypoint: [".docker/entrypoint.dev.sh"]
-<<<<<<< Updated upstream
 
   frontend:
     container_name: task_manager_frontend
@@ -54,22 +38,6 @@ services:
     ports:
       - "3001:3000"
     command: yarn serve
-=======
-#   frontend:
-#     container_name: task_manager_frontend
-#     depends_on:
-#       - backend
-#     build:
-#       context: ./frontend
-#       dockerfile: dev.Dockerfile
-#     platform: linux/amd64
-#     env_file: frontend/.env
-#     networks:
-#       - app_network
-#     ports:
-#       - "3000:3000"
-#     command: ["tail", "-f", "/dev/null"]
->>>>>>> Stashed changes
 
 networks:
   app_network:
@@ -77,7 +45,3 @@ networks:
 
 volumes:
   mysql_data:
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
