@@ -41,7 +41,7 @@ Complete task management application featuring:
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) 0.8.6+
 - [Node.js](https://nodejs.org/en/download) 22+
 - [MySQL](https://dev.mysql.com/doc/refman/8.4/en/installing.html) 8.4
-- [bun](https://bun.com/docs/installation) 1.2.19+ (or other **javasript** package manager)
+- [bun](https://bun.com/docs/installation) 1.2.19+ (or other **javascript** package manager)
 
 ### Installation
 
