@@ -44,6 +44,20 @@ jobs:
         working-directory: ./backend
         run: make typecheck
 
+      - name: Run migrations
+        working-directory: ./backend
+        run: make migrate
+        env:
+          MYSQL_DATABASE: task_manager
+          MYSQL_USER: mysql
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_PASSWORD: root
+          DEBUG: true
+          SECRET_KEY: secret
+
+
       - name: Run tests with coverage
         working-directory: ./backend
         run: make test
