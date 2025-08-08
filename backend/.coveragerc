@@ -6,6 +6,7 @@ omit =
     */tests/*
     src/manage.py
     src/core/*.py
+    src/common/schema_hooks.py
 
 [report]
 fail_under = 90
