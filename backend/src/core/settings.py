@@ -32,8 +32,14 @@ load_dotenv()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
-CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",")
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
+CORS_ALLOWED_ORIGINS = (
+    os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
+    if "CORS_ALLOWED_ORIGINS" in os.environ else []
+)
+ALLOWED_HOSTS = (
+    os.environ.get("ALLOWED_HOSTS").split(",")
+    if "ALLOWED_HOSTS" in os.environ else []
+)
 
 # Application definition
 
