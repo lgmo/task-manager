@@ -6,7 +6,7 @@ from django.db import migrations
 def gen_uuid(apps, schema_editor):
     TaskModel = apps.get_model('tasks', 'TaskModel')
     for row in TaskModel.objects.all():
-        row.uuid = uuid.uuid4()
+        row.uuid_id = uuid.uuid4()
         row.save(update_fields=['uuid_id'])
 
 
