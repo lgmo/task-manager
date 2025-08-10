@@ -31,15 +31,11 @@ load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
+cors_env = os.environ.get("CORS_ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS: list[str] = cors_env.split(",") if cors_env else []
 
-CORS_ALLOWED_ORIGINS = (
-    os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
-    if "CORS_ALLOWED_ORIGINS" in os.environ else []
-)
-ALLOWED_HOSTS = (
-    os.environ.get("ALLOWED_HOSTS").split(",")
-    if "ALLOWED_HOSTS" in os.environ else []
-)
+hosts_env = os.environ.get("ALLOWED_HOSTS")
+ALLOWED_HOSTS: list[str] = hosts_env.split(",") if hosts_env else []
 
 # Application definition
 
