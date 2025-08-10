@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 
@@ -7,7 +9,7 @@ class TaskStatus(models.TextChoices):
 
 
 class TaskModel(models.Model):
-    id: models.AutoField
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     status = models.CharField(
