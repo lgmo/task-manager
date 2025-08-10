@@ -25,7 +25,7 @@ def test_create_task(client: APIClient, task_data: dict[str, Any]) -> None:
     diff = datetime.fromisoformat(res_dict.pop("created_at")) - task.created_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res_dict == task_data
 
 
@@ -47,7 +47,7 @@ def test_list_tasks(client: APIClient, task_data: dict[str, Any]) -> None:
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res.json() == [task_data]
 
 
@@ -69,7 +69,7 @@ def test_get_task(client: APIClient, task_data: dict[str, Any]) -> None:
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res_dict == task_data
 
     # Arrange
@@ -104,7 +104,7 @@ def test_update_task(client: APIClient, task_data: dict[str, Any]) -> None:
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res_dict.pop("title") == new_title
     assert res_dict.pop("description") == task_data["description"]
     assert res_dict.pop("status") == task_data["status"]
@@ -127,7 +127,7 @@ def test_update_task(client: APIClient, task_data: dict[str, Any]) -> None:
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res_dict.pop("description") == new_description
     assert res_dict.pop("title") == new_title
     assert res_dict.pop("status") == task_data["status"]
@@ -150,7 +150,7 @@ def test_update_task(client: APIClient, task_data: dict[str, Any]) -> None:
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
     diff = datetime.fromisoformat(res_dict.pop("updated_at")) - task.updated_at
     assert timedelta(minutes=-1) < diff < timedelta(minutes=1)
-    assert task.id == res_dict.pop("id")
+    assert str(task.id) == res_dict.pop("id")
     assert res_dict.pop("description") == new_description
     assert res_dict.pop("title") == new_title
     assert res_dict.pop("status") == new_status

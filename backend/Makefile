@@ -17,3 +17,6 @@ migrations:
 
 migrate:
 	uv run src/manage.py migrate
+
+run:
+	uv run src/manage.py runserver
