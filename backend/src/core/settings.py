@@ -24,20 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", True)
+DEBUG = os.environ.get("DEBUG")
 
-if DEBUG:
-    load_dotenv()
+load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS", 
-    "http://localhost*,https://localhost*",
-).split(",")
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*localhosot*").split(",")
+CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 # Application definition
 
@@ -113,7 +109,7 @@ DATABASES = {
         "PASSWORD": os.environ.get("MYSQL_ROOT_PASSWORD"),
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            "auth_plugin": "mysql_native_password",  # Para MySQL 8+
+            "auth_plugin": "mysql_native_password",
         },
         "TEST": {
             "NAME": "task_manager",

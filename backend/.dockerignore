@@ -1,0 +1,4 @@
+.venv
+.pytestcache
+.ruffcache
+.uv

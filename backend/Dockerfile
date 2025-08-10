@@ -15,14 +15,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /backend
 
-RUN useradd --create-home --shell /bin/bash appuser && \
-    mkdir -p /backend && \
-    chown -R appuser:appuser /backend
+COPY . .
 
-COPY --chown=appuser:appuser pyproject.toml .
-COPY --chown=appuser:appuser uv.lock .
-
-COPY --chown=appuser:appuser . .
-RUN chmod +x .docker/entrypoint.dev.sh
-
-USER appuser
+RUN chmod +x .docker/entrypoint.sh

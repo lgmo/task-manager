@@ -1,21 +1,14 @@
 FROM node:24-slim as base
 
-ENV NODE_ENV=development
+WORKDIR /frontend
 
 RUN apt-get update && apt-get install -y \
     git \
-    && rm -rf /var/lib/apt/lists/*
+    curl \
+    unzip
 
-WORKDIR /frontend
+RUN curl -fsSL https://bun.sh/install | bash
 
-RUN useradd --create-home --shell /bin/bash appuser && \
-    mkdir -p /frontend && \
-    chown -R appuser:appuser /frontend
+COPY . .
 
-USER appuser
-
-COPY --chown=appuser:appuser package.json yarn.lock ./
-
-RUN yarn install --frozen-lockfile
-
-COPY --chown=appuser:appuser . .
+RUN chmod +x .docker/entrypoint.sh
