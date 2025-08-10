@@ -212,3 +212,6 @@ pyrightconfig.json
 
 # Coverage
 .coverage
+
+# uv
+.uv

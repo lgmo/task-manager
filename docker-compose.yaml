@@ -1,33 +1,52 @@
 services:
   db:
-    container_name: task_manager_backend_db
+    container_name: task_manager_db
     image: mysql:8.4
-    platform: linux/amd64
     environment:
-      MYSQL_NATIVE_PASSWORD: true
-    env_file: backend/.env
-    volumes:
-      - mysql_data:/var/lib/mysql
+      MYSQL_NATIVE_PASSWORD: "true"
+    env_file:
+      - ./backend/.env
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
   backend:
     container_name: task_manager_backend
     build:
       context: ./backend
-      dockerfile: dev.Dockerfile
-    platform: linux/amd64
-    env_file: backend/.env
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    environment:
+      ENV: "${ENV:-dev}"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
     networks:
       - app_network
-    depends_on:
-      - db
+    entrypoint: [".docker/entrypoint.sh"]
+
+  frontend:
+    container_name: task_manager_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      ENV: "${ENV:-dev}"
+    env_file:
+      - ./frontend/.env
     ports:
-      - "8000:8000"
-    entrypoint: [".docker/entrypoint.dev.sh"]
+      - "${FRONTEND_PORT:-3000}:3000"
+    entrypoint: [".docker/entrypoint.sh"]
 
 networks:
   app_network:
     driver: bridge
-
-volumes:
-  mysql_data:

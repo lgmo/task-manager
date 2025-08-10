@@ -1,83 +1,132 @@
 # FullStack Task Manager (Django + Vue)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Vue](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
-![Vuetify](https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=white)
+
+[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)](https://vuejs.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## 📌 Overview
 
 Complete task management application featuring:
 
 - **Backend**: Django REST Framework API
-- **Frontend**: Vue.js interface
+- **Frontend**: Vue.js 3 with Vuetify
 - **Key Features**:
-  - [ ] JWT Authentication
   - [x] Full CRUD task operations
-  - [ ] OpenAI integration for smart suggestions
+  - [ ] JWT Authentication (in progress)
+  - [ ] OpenAI integration
   - [ ] Automated Render deployment
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Django** - Python web framework
+- **Django 5.2** - Python web framework
 - **DRF** - REST API construction
-- **MySQL 8.4** - Relational database
-- **OpenAI SDK** - AI integration
+- **MySQL 8.4** - Database (Docker recommended)
+- **DRF Spectacular** - Swagger/OpenAPI docs
+- **Pytest** - Test coverage >90%
 
 ### Frontend
-- **Vue 3** - JavaScript framework
+- **Vue 3** - Composition API
+- **Vuetify 3** - Material Design components
 - **Axios** - API communication
-- **Tailwind CSS** - Styling
 
 ### DevOps
 - **Docker** - Containerization
 - **GitHub Actions** - CI/CD pipeline
-- **Render** - Deployment platform
+- **Render** - Cloud deployment
+
+## 🛠️ Prerequisites
+
+### For Docker Setup (Recommended)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### For Hybrid Setup (Optional)
+- **Backend**:
+  - [uv](https://docs.astral.sh/uv/getting-started/installation) (alternative to pip)
+  
+- **Frontend**:
+  - [Node.js](https://nodejs.org/) 22+
+  - [bun](https://bun.sh/) (or npm/yarn/pnpm)
+
+- **Database**:
+  - MySQL 8.4 (via Docker recommended)
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) 0.8.6+
-- [Node.js](https://nodejs.org/en/download) 22+
-- [MySQL](https://dev.mysql.com/doc/refman/8.4/en/installing.html) 8.4
-- [bun](https://bun.com/docs/installation) 1.2.19+ (or other **javascript** package manager)
-
-### Installation
-
-Clone repository
+### Option 1: Full Docker Setup (Recommended)
 ```bash
 git clone https://github.com/your-user/task-manager.git
+cd task-manager
+cp frontend/.env.example frontend/.env
+cp backend/.env.example backend/.env
+docker compose up -d
 ```
-Backend Setup
+
+### Option 2: Hybrid Setup (DB in Docker Container)
+General Setup
+```bash
+git clone https://github.com/your-user/task-manager.git
+cd task-manager
+cp frontend/.env.example frontend/.env
+cp backend/.env.example backend/.env
+docker compose up -d db
+
+```
+**Backend Setup**\
+Change `MYSQL_HOST` to `0.0.0.0` in `backend/.env`\
+Then run
 ```bash
 # Inside /backend
-cp .env.example .env
-uv sync --locked --all-extras --dev
+uv sync --all-extras --dev
+uv run src/manage.py migrate
+uv run src/manage.py runserver
 ```
-Frontend setup (bun)
-```bash 
-# Inside /frontend
+
+**Frontend setup (with `bun`)**
+```bash
+# Inside /frontend (in another terminal)
 bun install --no-save
+bun run dev
 ```
-Frontend setup (alternatives)
+
+**Frontend setup with other package managers**
 ```bash
-# Inside /frontend
+# Inside /frontend (in another terminal)
+
+# With npm
 npm install
-```
-```bash
-# Inside /frontend
-yarn
-```
-```bash
-# Inside /frontend
+npm run dev
+
+# With yarn
+yarn install
+yarn run dev
+
+# With pnpm
 pnpm install
+pnpm run dev
 ```
 
-## 🌐 Live Access (coming soon)
+**Access:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/api/docs
 
-- **API Documentation**: [Swagger UI]()
-- **Live Demo**: [Frontend on Render]()
+## Troubleshooting
+
+### "Having trouble installing mysqlclient?"
+Refer to the official installation guide for your platform:
+- [mysqlclient PyPI documentation](https://pypi.org/project/mysqlclient/)
+- [MySQL official connectors](https://dev.mysql.com/doc/connector-python/en/)
+
+For most Linux systems, you'll need to install system dependencies first.
+
+## 🌐 Coming Soon
+- [ ] Live Demo on Render
+- [ ] JWT Auth implementation guide
+- [ ] OpenAI integration tutorial
 
 ## 📄 License
 
