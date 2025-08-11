@@ -50,8 +50,11 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "drf_spectacular",
+    "accounts",
     "tasks",
 ]
+
+AUTH_USER_MODEL = "accounts.UserModel"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -92,8 +95,8 @@ REST_FRAMEWORK = {
 # drf-spectacular settings
 SPECTACULAR_SETTINGS = {
     # ... other settings
-    'PREPROCESSING_HOOKS': [
-        'common.schema_hooks.preprocessing_filter_spec',  # Adjust this regex to match your schema URL path
+    "PREPROCESSING_HOOKS": [
+        "common.schema_hooks.preprocessing_filter_spec",  # Adjust this regex to match your schema URL path
     ],
 }
 

@@ -1,6 +1,7 @@
-import uuid
-
+from django.conf import settings
 from django.db import models
+
+from common.models.abstract_base_model import AbstractBaseModel
 
 
 class TaskStatus(models.TextChoices):
@@ -8,8 +9,7 @@ class TaskStatus(models.TextChoices):
     DONE = ("done", "Done")
 
 
-class TaskModel(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+class TaskModel(AbstractBaseModel):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     status = models.CharField(
@@ -17,10 +17,13 @@ class TaskModel(models.Model):
         choices=TaskStatus.choices,
         default=TaskStatus.TODO,
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
 
-    class Meta:
+    class Meta:  # pyright: ignore
         app_label = "tasks"
         db_table = "tasks_tasks"
         verbose_name = "Task"
