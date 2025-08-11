@@ -6,8 +6,6 @@ services:
       MYSQL_NATIVE_PASSWORD: "true"
     env_file:
       - ./backend/.env
-    ports:
-      - "${DB_PORT:-3306}:3306"
     networks:
       - app_network
     healthcheck:
