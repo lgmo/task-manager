@@ -83,7 +83,7 @@ class AuthView(viewsets.GenericViewSet):
             secure=True,
             samesite="None",
             path="/",
-            expires=res["expires_in"],
+            max_age=res["expires_in"],
         )
 
         return response
@@ -128,7 +128,7 @@ class AuthView(viewsets.GenericViewSet):
             secure=True,
             samesite="None",
             path="/",
-            expires=tokens["expires_in"],
+            max_age=tokens["expires_in"],
         )
 
         return response
