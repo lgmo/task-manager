@@ -13,7 +13,7 @@
 <script setup>
 import { useAuth } from '@/composables/useAuth'
 
-const  { logout } = useAuth()
+const { logout } = useAuth()
 
 const handleLogout = async () => {
   const response = await logout()

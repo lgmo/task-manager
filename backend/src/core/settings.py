@@ -99,7 +99,7 @@ LOGGING = {
             "formatter": "simple",
         },
         "file": {
-            "level": "ERROR",  # Só loga erros!
+            "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "errors.log",
         },
@@ -113,7 +113,7 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["console", "file"],
-            "level": "ERROR",  # Captura apenas erros
+            "level": "ERROR",
         },
     },
 }

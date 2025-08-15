@@ -16,6 +16,8 @@ from common.authentications import IsAuthenticated
     tags=["Auth"],
 )
 class AuthView(viewsets.GenericViewSet):
+    http_method_names = ["post", "get"]
+
     @extend_schema(
         responses={
             status.HTTP_200_OK: {
@@ -157,6 +159,7 @@ class AuthView(viewsets.GenericViewSet):
 )
 class AuthCheckView(viewsets.GenericViewSet):
     authentication_classes = [IsAuthenticated]
+    http_method_names = ["get"]
 
     @action(detail=False, methods=["get"], url_path="auth/check")
     def check(self, _: Request) -> Response:
