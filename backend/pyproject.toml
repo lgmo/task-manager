@@ -5,6 +5,7 @@ description = "Backend of the task-manager app."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "boto3>=1.40.7",
     "django>=5.2.4",
     "django-cors-headers>=4.7.0",
     "django-extensions>=4.1",
@@ -12,6 +13,9 @@ dependencies = [
     "drf-spectacular>=0.28.0",
     "mysqlclient>=2.2.7",
     "python-dotenv>=1.1.1",
+    "python-jose[cryptography]>=3.5.0",
+    "requests>=2.32.4",
+    "types-boto3[cognito-idp,sso-oidc]>=1.40.7",
 ]
 
 [dependency-groups]
@@ -24,6 +28,7 @@ dev = [
     "pytest-cov>=6.2.1",
     "pytest-django>=4.11.1",
     "ruff>=0.12.7",
+    "types-python-jose>=3.5.0.20250531",
 ]
 
 [tool.ruff]
@@ -62,45 +67,56 @@ indent-width = 4
 [tool.ruff.lint]
 select = [
     # Erros básicos (não tem como fugir)
-    "E",   # pycodestyle errors
-    "F",   # pyflakes
-    
+    "E", # pycodestyle errors
+    "F", # pyflakes
+
     # Estilo que vale a pena
-    "I",   # isort (imports organizados)
-    "Q",   # quotes (aspas consistentes)
-    
+    "I", # isort (imports organizados)
+    "Q", # quotes (aspas consistentes)
+
     # Boas práticas
     "B",   # bugbear (anti-padrões)
     "A",   # flake8-builtins (nomes conflitantes)
     "COM", # commas (vírgulas consistentes)
     "DTZ", # datetime.timezone (segurança em timezones)
-    
+
     # Django específico
-    "DJ",  # django-flake8
-    
+    "DJ", # django-flake8
+
     # Performance
     "PERF", # perflint
-    
+
     # Complexidade moderada
     "C901", # complexidade ciclomática > 10
-    
+
     # Regex problemático
-    "S",    # flake8-bandit (security)
-    
+    "S", # flake8-bandit (security)
+
     # Type hints (se usar)
-    "TCH",  # type-checking imports
-    "ANN",  # annotations
+    "TCH", # type-checking imports
+    "ANN", # annotations
 ]
 fixable = ["ALL"]
 ignore = ["COM812"]
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-exclude = ["**/migrations/**", "**/node_modules/**", "**/.venv/**", "src/manage.py", "src/core/settings.py"]
+exclude = [
+    "**/migrations/**",
+    "**/node_modules/**",
+    "**/.venv/**",
+    "src/manage.py",
+    "src/core/settings.py",
+]
 
 [tool.ruff.format]
 quote-style = "double"
 skip-magic-trailing-comma = false
 line-ending = "auto"
-exclude = ["**/migrations/**", "**/node_modules/**", "src/manage.py", "**/.venv/**"]
+exclude = [
+    "**/migrations/**",
+    "**/node_modules/**",
+    "src/manage.py",
+    "**/.venv/**",
+]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101"]
@@ -109,7 +125,13 @@ exclude = ["**/migrations/**", "**/node_modules/**", "src/manage.py", "**/.venv/
 typeCheckingMode = "strict"
 reportMissingImports = true
 reportMissingTypeStubs = false
-exclude = ["**/migrations/**", "**/.venv/**", "**/node_modules/**", "src/manage.py"]
+exclude = [
+    "**/migrations/**",
+    "**/.venv/**",
+    "**/node_modules/**",
+    "src/manage.py",
+    "tests/**",
+]
 include = ["tests", "src"]
 extraPaths = ["src"]
 

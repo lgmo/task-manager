@@ -14,9 +14,9 @@ Complete task management application featuring:
 - **Frontend**: Vue.js 3 with Vuetify
 - **Key Features**:
   - [x] Full CRUD task operations
-  - [ ] JWT Authentication (in progress)
+  - [x] Authentication with Amazon Cognito (OIDC-compliant)
+  - [ ] Automated Render deployment (in progress)
   - [ ] OpenAI integration
-  - [ ] Automated Render deployment
 
 ## 🛠️ Tech Stack
 
@@ -56,28 +56,16 @@ Complete task management application featuring:
 
 ## 🚀 Getting Started
 
-### Option 1: Full Docker Setup (Recommended)
+### General Setup
 ```bash
 git clone https://github.com/your-user/task-manager.git
 cd task-manager
 cp frontend/.env.example frontend/.env
 cp backend/.env.example backend/.env
-docker compose up -d
+docker compose -f docker-compose.dev.yaml up -d
 ```
 
-### Option 2: Hybrid Setup (DB in Docker Container)
-General Setup
-```bash
-git clone https://github.com/your-user/task-manager.git
-cd task-manager
-cp frontend/.env.example frontend/.env
-cp backend/.env.example backend/.env
-docker compose up -d db
-
-```
-**Backend Setup**\
-Change `MYSQL_HOST` to `0.0.0.0` in `backend/.env`\
-Then run
+### Backend Setup
 ```bash
 # Inside /backend
 uv sync --all-extras --dev
@@ -85,14 +73,14 @@ uv run src/manage.py migrate
 uv run src/manage.py runserver
 ```
 
-**Frontend setup (with `bun`)**
+### Frontend setup (with `bun`)
 ```bash
 # Inside /frontend (in another terminal)
 bun install --no-save
 bun run dev
 ```
 
-**Frontend setup with other package managers**
+### Frontend setup with other package managers**
 ```bash
 # Inside /frontend (in another terminal)
 
@@ -112,7 +100,106 @@ pnpm run dev
 **Access:**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/api/docs
+- API Docs: http://localhost:8000/docs
+
+## Cognito Authentication
+
+### Required Setup
+
+**Cognito Setup**
+
+- Configure a User Pool in Amazon Cognito
+- Add the callback endpoints to the Allowed Callback Urls in Cognito console
+
+**Cognito settings**
+Add in your environment variables for the backend
+```env
+COGNITO_CLIENT_ID=
+COGNITO_CLIENT_SECRET=
+COGNITO_DOMAIN=
+COGNITO_USER_POOL_ID=
+```
+Where:
+- COGNITO_CLIENT_ID: The client id of your cognito app
+- COGNITO_CLIENT_SECRET: The client secret of your cognito app
+- COGNITO_DOMAIN: The cognito domain of your user pool
+- COGNITO_USER_POOL_ID: The id of your user pool
+
+
+**URLs for redirection**
+```env
+BASE_URL=http://localhost:8000
+FRONTEND_HOME_URL=http://localhost:3000
+```
+
+Where:
+- BASE_URL: The base url of your backend
+- FRONTEND_HOME_URL: The url of the home of your frontend
+
+### Setting Up User Session
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Cognito
+
+    User->>Frontend: Accesses application
+    Frontend->>Backend: POST /auth/login
+    Backend->>Backend: Generates Cognito login URL directly
+    Backend-->>Frontend: {"login_url": "https://your-cognito..."}
+    Frontend->>Cognito: Redirects to login_url
+    Note right of Cognito: Standard Cognito login flow
+    Cognito->>Backend: GET /auth/oidc/callback?code=ABC
+    Backend->>Cognito: POST /oauth2/token (code only)
+    Cognito-->>Backend: {access_token, id_token, refresh_token}
+    
+    alt JWKS cache hit
+        Backend->>Backend: Validates tokens using cached keys
+    else JWKS cache miss
+        Backend->>Cognito: GET /.well-known/jwks.json
+        Cognito-->>Backend: Returns fresh JWKS
+        Backend->>Backend: Validates tokens
+    end
+
+    Backend->>Backend: Creates user session
+    Backend-->>Frontend: 302 Redirect with session_id cookie
+    Frontend->>User: Renders authenticated page
+```
+### Handling Restricted Requests
+```mermaid
+sequenceDiagram
+    participant Frontend
+    participant Backend
+    participant Cognito
+
+    Frontend->>Backend: Restricted Request
+    alt Missing session_id token or invalid session_id
+      Backend-->>Frontend: 401 Unauthorized
+    else Valid session_id
+      Backend->>Backend: Retrieves Tokens from session_id
+    alt JWKS cache hit
+        Backend->>Backend: Validates tokens using cached keys
+    else JWKS cache miss
+        Backend->>Cognito: GET /.well-known/jwks.json
+        Cognito-->>Backend: Returns fresh JWKS
+        Backend->>Backend: Validates tokens
+    end
+    Backend-->>Frontend: Delivers<br>Protected Resource<br>\<br>Response for Restricted Operation
+    end
+```
+### Logout
+```mermaid
+sequenceDiagram
+    participant Frontend
+    participant Backend
+    participant Cognito
+
+    Frontend->>Backend: POST /auth/logout
+    Backend->>Backend: Generates Cognito logout URL directly
+    Backend-->>Frontend: {"logout_url": "https://your-cognito..."}
+    Frontend->>Cognito: Redirects to logout_url
+```
 
 ## Troubleshooting
 
@@ -125,7 +212,6 @@ For most Linux systems, you'll need to install system dependencies first.
 
 ## 🌐 Coming Soon
 - [ ] Live Demo on Render
-- [ ] JWT Auth implementation guide
 - [ ] OpenAI integration tutorial
 
 ## 📄 License

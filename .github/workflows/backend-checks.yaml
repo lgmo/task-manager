@@ -56,6 +56,17 @@ jobs:
           MYSQL_PASSWORD: root
           DEBUG: true
           SECRET_KEY: secret
+          BASE_URL: http://localhost:8000
+          ALLOWED_HOSTS: "*"
+          CORS_ALLOWED_ORIGINS: http://localhost:3000
+          AWS_ACCESS_KEY_ID: access_key_id
+          AWS_SECRET_ACCESS_KEY: secret_access_key
+          AWS_DEFAULT_REGION: us-east-1
+          COGNITO_CLIENT_ID: cognito_client_id
+          COGNITO_CLIENT_SECRET: cognito_client_secret
+          COGNITO_DOMAIN: cognito_domain
+          COGNITO_USER_POOL_ID: cognito_user_pool_id
+          FRONTEND_HOME_URL: http://localhost:3000
 
       - name: Run tests with coverage
         working-directory: ./backend
@@ -69,3 +80,14 @@ jobs:
           MYSQL_PASSWORD: root
           DEBUG: true
           SECRET_KEY: secret
+          BASE_URL: http://localhost:8000
+          ALLOWED_HOSTS: "*"
+          CORS_ALLOWED_ORIGINS: http://localhost:3000
+          AWS_ACCESS_KEY_ID: access_key_id
+          AWS_SECRET_ACCESS_KEY: secret_access_key
+          AWS_DEFAULT_REGION: us-east-1
+          COGNITO_CLIENT_ID: cognito_client_id
+          COGNITO_CLIENT_SECRET: cognito_client_secret
+          COGNITO_DOMAIN: cognito_domain
+          COGNITO_USER_POOL_ID: cognito_user_pool_id
+          FRONTEND_HOME_URL: http://localhost:3000
