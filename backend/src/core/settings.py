@@ -24,13 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
+DEBUG = os.environ.get("DEBUG") in ["True", "true", "1"]
 
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
+CORS_ALLOW_CREDENTIALS = True
 cors_env = os.environ.get("CORS_ALLOWED_ORIGINS")
 CORS_ALLOWED_ORIGINS: list[str] = cors_env.split(",") if cors_env else []
 
@@ -65,7 +66,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
+    "common.middlewares.exception_middleware.CustomExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -86,6 +87,36 @@ TEMPLATES = [  # pyright: ignore[reportUnknownVariableType]
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
+
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "errors.log",
+        },
+    },
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "ERROR",
+        },
+    },
+}
 
 # DRF settings
 REST_FRAMEWORK = {
@@ -111,13 +142,10 @@ DATABASES = {
         "USER": os.environ.get("MYSQL_USER"),
         "HOST": os.environ.get("MYSQL_HOST"),
         "PORT": os.environ.get("MYSQL_PORT"),
-        "PASSWORD": os.environ.get("MYSQL_ROOT_PASSWORD"),
+        "PASSWORD": os.environ.get("MYSQL_PASSWORD"),
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
             "auth_plugin": "mysql_native_password",
-        },
-        "TEST": {
-            "NAME": "task_manager",
         },
     },
 }
@@ -163,3 +191,20 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+BASE_URL = os.environ.get("BASE_URL")
+
+# AWS credentials
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_DEFAULT_REGION = os.environ.get("AWS_DEFAULT_REGION")
+
+# Cognito settings
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET")
+COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN")
+COGNITO_JWKS_BASE_URL = os.environ.get("COGNITO_JWKS_BASE_URL")
+COGNITO_USER_POOL_ID = os.environ.get("COGNITO_USER_POOL_ID")
+
+# Frontend
+FRONTEND_HOME_URL = os.environ.get("FRONTEND_HOME_URL")

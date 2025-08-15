@@ -1,3 +1,4 @@
+from datetime import UTC, datetime
 from typing import Any
 
 from django.contrib.auth.models import (
@@ -37,6 +38,7 @@ class UserManagerModel(BaseUserManager["UserModel"]):
 
 
 class UserModel(AbstractBaseUser, PermissionsMixin, AbstractBaseModel):
+    cognito_id = models.UUIDField(null=True, blank=True, unique=True)
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -55,3 +57,29 @@ class UserModel(AbstractBaseUser, PermissionsMixin, AbstractBaseModel):
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ["-created_at"]
+
+
+class UserSessionModel(AbstractBaseModel, models.Model):  # noqa: DJ008
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+        related_name="sessions",
+    )
+    access_token = models.TextField()
+    refresh_token = models.TextField()
+    expires_at = models.DateTimeField()
+
+    class Meta:  # pyright: ignore
+        app_label = "accounts"
+        db_table = "accounts_user_sessions"
+        verbose_name = "User Session"
+        verbose_name_plural = "User Sessions"
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["user"]),
+            models.Index(fields=["expires_at"]),
+        ]
+
+    @property
+    def is_active(self) -> bool:
+        return self.expires_at > datetime.now(UTC)

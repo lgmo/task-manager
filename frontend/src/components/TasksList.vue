@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import type { StatusOptions, Task } from '../types/task'
+  import type { Task } from '../types/task'
   import { onMounted, ref, type Ref } from 'vue'
   import { useTasks } from '../composables/useTasks'
 

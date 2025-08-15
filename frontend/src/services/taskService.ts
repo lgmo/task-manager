@@ -1,6 +1,6 @@
 import type { Task } from "@/types/task.ts";
-// services/taskService.ts
-import api from "../api/client.ts";
+
+import api from "@/api/client.ts";
 
 export async function fetchTasks() {
   return api.get<Task[]>("/tasks/").then((res) => res.data);
@@ -11,7 +11,7 @@ export async function createTask(task: Omit<Task, "id">) {
 }
 
 export async function updateTask(id: string, task: Omit<Task, "id">) {
-  return api.put(`/tasks/${id}/`, task).then((res) => res.data);
+  return api.patch(`/tasks/${id}/`, task).then((res) => res.data);
 }
 
 export async function deleteTask(id: string) {

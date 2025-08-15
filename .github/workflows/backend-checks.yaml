@@ -14,14 +14,24 @@ jobs:
         image: mysql:8.4
         env:
           MYSQL_DATABASE: task_manager
+          MYSQL_HOST: 0.0.0.0
           MYSQL_USER: mysql
           MYSQL_PORT: 3306
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_PASSWORD: root
+          MYSQL_PASSWORD: mysql
         ports: ["3306:3306"]
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Mysql
+        working-directory: ./backend/.docker
+        run: |
+          sudo apt-get update && sudo apt-get install -y mysql-client
+      
+      - name: Runs init.sql
+        run: |
+          mysql --protocol=tcp -uroot -proot -hlocalhost -P3306 task_manager < ./backend/.docker/init.sql
+      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -50,12 +60,23 @@ jobs:
         env:
           MYSQL_DATABASE: task_manager
           MYSQL_USER: mysql
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: 0.0.0.0
           MYSQL_PORT: 3306
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_PASSWORD: root
+          MYSQL_PASSWORD: mysql
           DEBUG: true
           SECRET_KEY: secret
+          BASE_URL: http://localhost:8000
+          ALLOWED_HOSTS: "*"
+          CORS_ALLOWED_ORIGINS: http://localhost:3000
+          AWS_ACCESS_KEY_ID: access_key_id
+          AWS_SECRET_ACCESS_KEY: secret_access_key
+          AWS_DEFAULT_REGION: us-east-1
+          COGNITO_CLIENT_ID: cognito_client_id
+          COGNITO_CLIENT_SECRET: cognito_client_secret
+          COGNITO_DOMAIN: cognito_domain
+          COGNITO_USER_POOL_ID: cognito_user_pool_id
+          FRONTEND_HOME_URL: http://localhost:3000
 
       - name: Run tests with coverage
         working-directory: ./backend
@@ -63,9 +84,20 @@ jobs:
         env:
           MYSQL_DATABASE: task_manager
           MYSQL_USER: mysql
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: 0.0.0.0
           MYSQL_PORT: 3306
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_PASSWORD: root
+          MYSQL_PASSWORD: mysql
           DEBUG: true
           SECRET_KEY: secret
+          BASE_URL: http://localhost:8000
+          ALLOWED_HOSTS: "*"
+          CORS_ALLOWED_ORIGINS: http://localhost:3000
+          AWS_ACCESS_KEY_ID: access_key_id
+          AWS_SECRET_ACCESS_KEY: secret_access_key
+          AWS_DEFAULT_REGION: us-east-1
+          COGNITO_CLIENT_ID: cognito_client_id
+          COGNITO_CLIENT_SECRET: cognito_client_secret
+          COGNITO_DOMAIN: cognito_domain
+          COGNITO_USER_POOL_ID: cognito_user_pool_id
+          FRONTEND_HOME_URL: http://localhost:3000
