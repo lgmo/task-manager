@@ -11,10 +11,8 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
-const route = useRoute()
 const  { logout } = useAuth()
 
 const handleLogout = async () => {

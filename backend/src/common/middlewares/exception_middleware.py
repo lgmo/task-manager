@@ -29,5 +29,6 @@ class CustomExceptionMiddleware:
             context = CustomException(details=str(exception)).get_response()
         return HttpResponse(
             status=context.pop("status_code"),
+            content_type="application/json",
             content=json.dumps(context),
         )
